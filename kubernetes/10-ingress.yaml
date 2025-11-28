@@ -4,16 +4,10 @@ metadata:
   name: easyshop-ingress
   namespace: easyshop
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
 spec:
-  tls:
-  - hosts:
-    - 43.204.29.50.sslip.io
-    secretName: easyshop-tls-secret
   rules:
-  - host: easyshop.letsdeployit.com
+  - host: ac59d04500de84ba9812ad75968bcdc5-674990491.ap-south-1.elb.amazonaws.com
     http:
       paths:
       - path: /
