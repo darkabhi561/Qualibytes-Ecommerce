@@ -9,10 +9,11 @@ pipeline {
         DOCKER_MIGRATION_IMAGE_NAME = 'satyamsri/qbshop-migration'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = credentials('github-credentials')
-        GIT_BRANCH = "dev"     // IMPORTANT: changed to dev
+        GIT_BRANCH = "dev"
     }
     
     stages {
+
         stage('Cleanup Workspace') {
             steps {
                 script {
@@ -20,11 +21,34 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Clone Repository') {
             steps {
                 script {
                     clone("https://github.com/Satyams-git/Qualibytes-Ecommerce.git", "dev")
+                }
+            }
+        }
+
+        // 🔥 NEW STAGE: Cleanup old Docker images to avoid disk full issues
+        stage('Cleanup Old Docker Images') {
+            steps {
+                script {
+                    echo "🧹 Cleaning up old Docker images, containers & volumes..."
+
+                    // Remove dangling images
+                    sh "docker image prune -f"
+
+                    // Remove unused images older than 12 hours
+                    sh "docker image prune -a --force --filter \"until=12h\""
+
+                    // Remove stopped containers
+                    sh "docker container prune -f"
+
+                    // Remove unused volumes (safe)
+                    sh "docker volume prune -f"
+
+                    echo "Cleanup completed successfully!"
                 }
             }
         }
