@@ -9,7 +9,7 @@ pipeline {
         DOCKER_MIGRATION_IMAGE_NAME = 'dark944/qbshop-migration'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = credentials('github-credentials')
-        GIT_BRANCH = "dev"
+        GIT_BRANCH = "main"
     }
     
     stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    clone("https://github.com/Satyams-git/Qualibytes-Ecommerce.git", "dev")
+                    clone("https://github.com/darkabhi561/Qualibytes-Ecommerce.git", "main")
                 }
             }
         }
